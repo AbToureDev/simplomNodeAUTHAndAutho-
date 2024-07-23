@@ -1,5 +1,7 @@
-async function createProduct(req, res) {
+const Product = require('../models/products');
 
+async function createProduct(req, res) {
+    const {} = req.body;
 }
 async function getAllProducts(req, res) {
 
