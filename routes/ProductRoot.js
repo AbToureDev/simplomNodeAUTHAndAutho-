@@ -3,7 +3,7 @@ const {createProduct, getAllProducts, getProductById,updateProduct,deleteProduct
 const router = express.Router();
 router.post('/creat_product', createProduct);
 router.get('/All_products', getAllProducts);
-router.get('/products_by_id', getProductById);
-router.patch('/update_product', updateProduct);
-router.delete('/delete_product', deleteProduct);
+router.get('/products_by_id/:id', getProductById);
+router.patch('/update_product/:id', updateProduct);
+router.delete('/delete_product/:id', deleteProduct);
 module.exports = router;

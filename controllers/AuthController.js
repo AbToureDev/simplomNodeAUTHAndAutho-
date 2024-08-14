@@ -6,7 +6,6 @@ const {generateVerifyCodeMail} = require('../utils/utils')
 const {sendMail} = require('../Mail/sendeMail')
 
 async function signup(req, res) {
-    try {
         const {firstName, lastName, email, password} =req.body;
         const hasPassword = await bcrypt.hash(password, 12);
         const newUser = new User({
@@ -16,11 +15,7 @@ async function signup(req, res) {
             password:hasPassword,
         })
         const saveUser = await User.create(newUser);
-        res.status(201).json({message:"user saved successfully", user: saveUser});
-
-    }catch (err) {
-        res.status(403).json({message: err.message});
-    }
+        res.status(201).json(saveUser);
 }
 async function login(req, res) {
         const {email, password} =req.body;
@@ -31,9 +26,10 @@ async function login(req, res) {
         const passwordValidate = await bcrypt.compare(password, user.password);
         if (!passwordValidate) {
            return res.status(404).json({error: 'Invalid password'});
-        } else if (!user.isEmailVerified) {
-            return res.status(404).json({error: 'Your compte has not been verified'});
         }
+        // else if (!user.isEmailVerified) {
+        //     return res.status(401).json({error: 'Your compte has not been verified'});
+        // }
         return  res.status(200).json(await token(user));
 }
 async function logOut(req, res) {

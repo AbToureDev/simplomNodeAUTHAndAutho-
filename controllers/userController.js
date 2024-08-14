@@ -9,7 +9,7 @@ async function getAllUsers(req, res) {
     }
 }
 async function getUserById(req, res) {
-    const {id} =req.body;
+    const {id} =req.params;
     try {
         const users = await User.findById({id: id});
         return res.status(201).json({message:"user saved successfully", user: users});
@@ -19,10 +19,14 @@ async function getUserById(req, res) {
     }
 }
 async function updateUser(req, res) {
+    const {id} =req.params;
     const {firstName, lastName, email, password} =req.body;
     try {
-        // const users = await User.updateOne();
-        // return res.status(201).json({message:"user saved successfully", user: users});
+        const users = await User.findByIdAndUpdate(id,
+            {firstName:firstName, lastName:lastName, email:email, password:password},
+            { new: true, runValidators: true }
+            );
+        return res.status(201).json({message:"user saved successfully", user: users});
 
     }catch (err) {
         res.status(403).json({message: err.message});
